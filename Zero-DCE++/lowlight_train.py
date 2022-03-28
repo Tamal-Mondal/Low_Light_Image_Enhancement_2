@@ -28,7 +28,7 @@ def weights_init(m):
 
 def train(config):
 
-	os.environ['CUDA_VISIBLE_DEVICES']='0'
+	os.environ['CUDA_VISIBLE_DEVICES']='1'
 	scale_factor = config.scale_factor
 	DCE_net = model.enhance_net_nopool(scale_factor).cuda()
 
