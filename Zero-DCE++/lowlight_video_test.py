@@ -73,6 +73,7 @@ def enhance_video(video_path):
     
     print("\nPer frame image enhancement is done\n")
     combine_images_to_video(enhanced_images_path, enhanced_video_path)
+    shutil.rmtree(enhanced_images_path)
     
 
 if __name__ == '__main__':
