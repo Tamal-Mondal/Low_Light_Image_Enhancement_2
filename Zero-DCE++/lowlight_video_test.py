@@ -36,13 +36,13 @@ def enhance_video_frame(data_lowlight, frame_no, result_path):
 	torchvision.utils.save_image(enhanced_image, result_path + str(frame_no) + ".png")
 	return enhanced_image
 
-def combine_images_to_video(images_path, video_path):
+def combine_images_to_video(images_path, video_path, fps):
 
     images = [img for img in os.listdir(images_path) if img.endswith(".png")]
     frame = cv2.imread(os.path.join(images_path, images[0]))
     height, width, layers = frame.shape
 
-    video = cv2.VideoWriter(video_path, 0, 1, (width,height))
+    video = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'XVID'), fps, (width,height))
 
     for image in images:
         video.write(cv2.imread(os.path.join(images_path, image)))
@@ -61,18 +61,25 @@ def enhance_video(video_path):
         shutil.rmtree(enhanced_images_path)
     os.mkdir(enhanced_images_path)
 
+    (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+    if int(major_ver)  < 3 :
+        fps = original_video.get(cv2.cv.CV_CAP_PROP_FPS)
+    else :
+        fps = original_video.get(cv2.CAP_PROP_FPS)
+    print("\nFrames per second for the input video: {0}\n".format(fps))
+
     success,image = original_video.read()
     no_of_frames = 1
     while success:   
         enhanced_image = enhance_video_frame(image, no_of_frames, enhanced_images_path)
         success,image = original_video.read()
         print("Processed frame: ", no_of_frames)
-        if(no_of_frames == 100):
-            break
+        #if(no_of_frames == 200):
+            #break
         no_of_frames += 1
     
     print("\nPer frame image enhancement is done\n")
-    combine_images_to_video(enhanced_images_path, enhanced_video_path)
+    combine_images_to_video(enhanced_images_path, enhanced_video_path, fps)
     shutil.rmtree(enhanced_images_path)
     
 
