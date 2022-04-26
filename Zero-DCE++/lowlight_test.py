@@ -16,15 +16,11 @@ import glob
 import time
 
 def lowlight(image_path):
-	os.environ['CUDA_VISIBLE_DEVICES']='1'
+	os.environ['CUDA_VISIBLE_DEVICES']='1,2'
 	scale_factor = 12
 	data_lowlight = Image.open(image_path)
 
- 
-
 	data_lowlight = (np.asarray(data_lowlight)/255.0)
-
-
 	data_lowlight = torch.from_numpy(data_lowlight).float()
 
 	h=(data_lowlight.shape[0]//scale_factor)*scale_factor
@@ -34,14 +30,14 @@ def lowlight(image_path):
 	data_lowlight = data_lowlight.cuda().unsqueeze(0)
 
 	DCE_net = model.enhance_net_nopool(scale_factor).cuda()
-	DCE_net.load_state_dict(torch.load('snapshots_Zero_DCE++/Epoch99.pth'))
+	DCE_net.load_state_dict(torch.load('snapshots_Zero_DCE++/Epoch9.pth'))
 	start = time.time()
 	enhanced_image,params_maps = DCE_net(data_lowlight)
 
 	end_time = (time.time() - start)
 
 	print(end_time)
-	image_path = image_path.replace('test_data','result_Zero_DCE++')
+	image_path = image_path.replace('test_data', '/result_Zero_DCE++/with_cbam')
 
 	result_path = image_path
 	if not os.path.exists(image_path.replace('/'+image_path.split("/")[-1],'')):
@@ -57,7 +53,7 @@ if __name__ == '__main__':
 		filePath = 'data/test_data/'	
 		file_list = os.listdir(filePath)
 		sum_time = 0
-		for file_name in file_list:
+		for file_name in file_list[:1]:
 			test_list = glob.glob(filePath+file_name+"/*") 
 		for image in test_list:
 
