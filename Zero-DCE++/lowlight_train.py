@@ -23,7 +23,7 @@ def train(config):
 
     tbwriter = SummaryWriter("runs/")
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     scale_factor = config.scale_factor
     DCE_net = model.enhance_net_nopool(scale_factor).cuda()
 
