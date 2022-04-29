@@ -1,3 +1,8 @@
+"""Module that generate comparable results at folder data/compare/ where first image is the: 
+    [Original Image] [Imagewithout Attention] [Image with Attention]
+
+    """
+
 import matplotlib.pyplot as plt
 import imageio
 import os
