@@ -23,7 +23,7 @@ def train(config):
 
     tbwriter = SummaryWriter("runs/")
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1,2"
     scale_factor = config.scale_factor
     DCE_net = model.enhance_net_nopool(scale_factor).cuda()
 
@@ -97,14 +97,14 @@ if __name__ == "__main__":
     parser.add_argument("--lr", type=float, default=0.0001)
     parser.add_argument("--weight_decay", type=float, default=0.0001)
     parser.add_argument("--grad_clip_norm", type=float, default=0.1)
-    parser.add_argument("--num_epochs", type=int, default=10)
+    parser.add_argument("--num_epochs", type=int, default=50)
     parser.add_argument("--train_batch_size", type=int, default=8)
     parser.add_argument("--val_batch_size", type=int, default=8)
     parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--display_iter", type=int, default=10)
     parser.add_argument("--snapshot_iter", type=int, default=10)
     parser.add_argument("--scale_factor", type=int, default=1)
-    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/attention/")
+    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/extra_iterations/")
     parser.add_argument("--load_pretrain", type=bool, default=False)
     parser.add_argument("--pretrain_dir", type=str, default="snapshots_Zero_DCE++/Epoch46.pth")
 

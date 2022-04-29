@@ -133,7 +133,7 @@ class enhance_net_nopool(nn.Module):
         self.upsample = nn.UpsamplingBilinear2d(scale_factor=self.scale_factor)
         number_f = 32
 
-        #   zerodce DWC + p-shared
+        # zerodce DWC + p-shared
         self.e_conv1 = CSDN_Tem(3, number_f)
         self.e_conv2 = CSDN_Tem(number_f, number_f)
         self.e_conv3 = CSDN_Tem(number_f, number_f)
@@ -142,11 +142,10 @@ class enhance_net_nopool(nn.Module):
         self.e_conv6 = CSDN_Tem(number_f * 2, number_f)
         self.e_conv7 = CSDN_Tem(number_f * 2, 3)
 
+        # CBAM layer
         self.cbam_1 = CBAM(gate_channels=32)
-        self.cbam_2 = CBAM(gate_channels=3)
 
-    def enhance(self, x, x_r):
-
+    def enhance(self, x, x_r, add_extra_itr = False):
         x = x + x_r * (torch.pow(x, 2) - x)
         x = x + x_r * (torch.pow(x, 2) - x)
         x = x + x_r * (torch.pow(x, 2) - x)
@@ -154,6 +153,14 @@ class enhance_net_nopool(nn.Module):
         x = enhance_image_1 + x_r * (torch.pow(enhance_image_1, 2) - enhance_image_1)
         x = x + x_r * (torch.pow(x, 2) - x)
         x = x + x_r * (torch.pow(x, 2) - x)
+
+        # Adding 4 more iterations
+        if(add_extra_itr):
+            x = x + x_r * (torch.pow(x, 2) - x)
+            x = x + x_r * (torch.pow(x, 2) - x)
+            x = x + x_r * (torch.pow(x, 2) - x)
+            x = x + x_r * (torch.pow(x, 2) - x)
+
         enhance_image = x + x_r * (torch.pow(x, 2) - x)
 
         return enhance_image
@@ -165,24 +172,24 @@ class enhance_net_nopool(nn.Module):
             x_down = F.interpolate(x, scale_factor=1 / self.scale_factor, mode="bilinear")
 
         # print("\n==========Input shape: ", x_down.shape)
-        x1 = self.relu(self.cbam_1(self.e_conv1(x_down)))
+        # x1 = self.relu(self.cbam_1(self.e_conv1(x_down)))
         # print("\nx1 shape: ", x1.shape)
-        x2 = self.relu(self.cbam_1(self.e_conv2(x1)))
+        # x2 = self.relu(self.cbam_1(self.e_conv2(x1)))
         # print("\nx2 shape: ", x2.shape)
-        x3 = self.relu(self.cbam_1(self.e_conv3(x2)))
+        # x3 = self.relu(self.cbam_1(self.e_conv3(x2)))
         # print("\nx3 shape: ", x3.shape)
-        x4 = self.relu(self.cbam_1(self.e_conv4(x3)))
+        # x4 = self.relu(self.cbam_1(self.e_conv4(x3)))
         # print("\nx4 shape: ", x4.shape)
-        x5 = self.relu(self.cbam_1(self.e_conv5(torch.cat([x3, x4], 1))))
+        # x5 = self.relu(self.cbam_1(self.e_conv5(torch.cat([x3, x4], 1))))
         # print("\nx5 shape: ", x5.shape)
-        x6 = self.relu(self.cbam_1(self.e_conv6(torch.cat([x2, x5], 1))))
+        # x6 = self.relu(self.cbam_1(self.e_conv6(torch.cat([x2, x5], 1))))
 
-        # x1 = self.relu(self.e_conv1(x_down))
-        # x2 = self.relu(self.e_conv2(x1))
-        # x3 = self.relu(self.e_conv3(x2))
-        # x4 = self.relu(self.e_conv4(x3))
-        # x5 = self.relu(self.e_conv5(torch.cat([x3, x4], 1)))
-        # x6 = self.relu(self.e_conv6(torch.cat([x2, x5], 1)))
+        x1 = self.relu(self.e_conv1(x_down))
+        x2 = self.relu(self.e_conv2(x1))
+        x3 = self.relu(self.e_conv3(x2))
+        x4 = self.relu(self.e_conv4(x3))
+        x5 = self.relu(self.e_conv5(torch.cat([x3, x4], 1)))
+        x6 = self.relu(self.e_conv6(torch.cat([x2, x5], 1)))
 
         # print("\nx6 shape: ", x6.shape)
         x_r = torch.tanh(self.e_conv7(torch.cat([x1, x6], 1)))
@@ -191,5 +198,5 @@ class enhance_net_nopool(nn.Module):
             x_r = x_r
         else:
             x_r = self.upsample(x_r)
-        enhance_image = self.enhance(x, x_r)
+        enhance_image = self.enhance(x, x_r, add_extra_itr = False)
         return enhance_image, x_r
