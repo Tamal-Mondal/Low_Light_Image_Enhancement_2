@@ -16,6 +16,7 @@ class CSDN_Tem(nn.Module):
 
 ################################## SELF-ATTENTION MODULE ################################
 
+#Reference/Source: https://blog.paperspace.com/attention-mechanisms-in-computer-vision-cbam/
 
 class BasicConv(nn.Module):
     def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1, groups=1, relu=True, bn=True, bias=False):
