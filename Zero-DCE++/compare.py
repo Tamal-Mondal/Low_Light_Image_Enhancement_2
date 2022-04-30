@@ -28,19 +28,19 @@ def compare_resuts(baseline_path, results1_path, results2_path):
         img3 = imageio.imread(f"{results2_path}/{results2[num]}")
 
         plt.subplot(1, 3, 1)
-        plt.title("Baseline")
+        plt.title("Test")
         plt.imshow(img1)
 
         plt.subplot(1, 3, 2)
-        plt.title("Result-1")
+        plt.title("baseline")
         plt.imshow(img2)
 
         plt.subplot(1, 3, 3)
-        plt.title("Result-2")
+        plt.title("Extra Iterations")
         plt.imshow(img3)
 
         plt.savefig(f"data/compare/compare_{num}.jpg")
 
 
 if __name__ == "__main__":
-    compare_resuts("data/test_data/real", "data/result_Zero_DCE++/baseline", "data/result_Zero_DCE++/baseline")
+    compare_resuts("data/test_data/real", "data/result_Zero_DCE++/baseline", "data/result_Zero_DCE++/extra_iterations")
