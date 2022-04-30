@@ -97,7 +97,7 @@ class SpatialGate(nn.Module):
         super(SpatialGate, self).__init__()
         kernel_size = 7
         self.compress = ChannelPool()
-        self.spatial = BasicConv(2, 1, kernel_size, stride=1, padding=(kernel_size - 1) // 2, relu=False)
+        self.spatial = BasicConv(2, 1, kernel_size, stride=1, padding=(kernel_size - 1) // 2, relu=False, bn = False, bias = True)
 
     def forward(self, x):
         x_compress = self.compress(x)
@@ -143,7 +143,8 @@ class enhance_net_nopool(nn.Module):
         self.e_conv7 = CSDN_Tem(number_f * 2, 3)
 
         # CBAM layer
-        self.cbam_1 = CBAM(gate_channels=32)
+        self.cbam_1 = CBAM(gate_channels = 32, reduction_ratio = 16, pool_types = ["avg", "max", "lp", "lse"])
+        self.cbam_2 = CBAM(gate_channels = 3, reduction_ratio = 1, pool_types = ["avg", "max", "lp", "lse"])
 
     def enhance(self, x, x_r, add_extra_itr = False):
         x = x + x_r * (torch.pow(x, 2) - x)
@@ -178,16 +179,17 @@ class enhance_net_nopool(nn.Module):
         x4 = self.relu(self.cbam_1(self.e_conv4(x3)))
         x5 = self.relu(self.cbam_1(self.e_conv5(torch.cat([x3, x4], 1))))
         x6 = self.relu(self.cbam_1(self.e_conv6(torch.cat([x2, x5], 1))))
-
+        x_r = torch.tanh(self.cbam_2(self.e_conv7(torch.cat([x1, x6], 1))))
+        
         #x1 = self.relu(self.e_conv1(x_down))
         #x2 = self.relu(self.e_conv2(x1))
         #x3 = self.relu(self.e_conv3(x2))
         #x4 = self.relu(self.e_conv4(x3))
         #x5 = self.relu(self.e_conv5(torch.cat([x3, x4], 1)))
         #x6 = self.relu(self.e_conv6(torch.cat([x2, x5], 1)))
-
-        x_r = torch.tanh(self.e_conv7(torch.cat([x1, x6], 1)))
-        # print("\n==========x_r shape: ", x_r.shape)
+        #x_r = torch.tanh(self.e_conv7(torch.cat([x1, x6], 1)))
+        
+        #print("\n==========x_r shape: ", x_r.shape)
         if self.scale_factor == 1:
             x_r = x_r
         else:

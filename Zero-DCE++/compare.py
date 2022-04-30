@@ -34,7 +34,7 @@ def compare_resuts(original_path, without_attention_path, with_attention_path):
         plt.imshow(img2)
 
         plt.subplot(1, 3, 3)
-        plt.title("attention_no_bn_bias")
+        plt.title("attention_pool_no_bn_bias")
         plt.imshow(img3)
 
         plt.savefig(f"data/compare/compare_{num}.jpg")
@@ -44,5 +44,5 @@ if __name__ == "__main__":
 
     original_path = "data/test_data/real"
     without_attention_path = "data/result_Zero_DCE++/baseline"
-    with_attention_path = "data/result_Zero_DCE++/attention_no_bn_bias"
+    with_attention_path = "data/result_Zero_DCE++/attention_pool_no_bn_bias"
     compare_resuts(original_path, without_attention_path, with_attention_path)

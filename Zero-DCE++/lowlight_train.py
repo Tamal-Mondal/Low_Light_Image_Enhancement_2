@@ -104,7 +104,7 @@ if __name__ == "__main__":
     parser.add_argument("--display_iter", type=int, default=10)
     parser.add_argument("--snapshot_iter", type=int, default=10)
     parser.add_argument("--scale_factor", type=int, default=1)
-    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/attention_no_bn_bias/")
+    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/attention_pool_no_bn_bias/")
     parser.add_argument("--load_pretrain", type=bool, default=False)
     parser.add_argument("--pretrain_dir", type=str, default="checkpoints/without_attention/Epoch9.pth")
 
