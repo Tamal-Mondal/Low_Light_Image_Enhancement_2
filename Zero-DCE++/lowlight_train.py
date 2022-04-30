@@ -72,7 +72,7 @@ def train(config):
 
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm(DCE_net.parameters(), config.grad_clip_norm)
+            torch.nn.utils.clip_grad_norm_(DCE_net.parameters(), config.grad_clip_norm)
             optimizer.step()
 
             tbwriter.add_scalar(f"epoch: {epoch}, iteration:_loss:", loss.item(), iteration)
@@ -104,9 +104,9 @@ if __name__ == "__main__":
     parser.add_argument("--display_iter", type=int, default=10)
     parser.add_argument("--snapshot_iter", type=int, default=10)
     parser.add_argument("--scale_factor", type=int, default=1)
-    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/attention/")
+    parser.add_argument("--snapshots_folder", type=str, default="checkpoints/attention_no_bn_bias/")
     parser.add_argument("--load_pretrain", type=bool, default=False)
-    parser.add_argument("--pretrain_dir", type=str, default="snapshots_Zero_DCE++/Epoch46.pth")
+    parser.add_argument("--pretrain_dir", type=str, default="checkpoints/without_attention/Epoch9.pth")
 
     config = parser.parse_args()
 

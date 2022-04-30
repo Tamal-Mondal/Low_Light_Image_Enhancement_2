@@ -34,19 +34,18 @@ def lowlight(image_path):
 	data_lowlight = data_lowlight.cuda().unsqueeze(0)
 
 	DCE_net = model.enhance_net_nopool(scale_factor).cuda()
-	DCE_net.load_state_dict(torch.load('checkpoints/attention/Epoch9.pth'))
+	DCE_net.load_state_dict(torch.load('checkpoints/attention_no_bn_bias/Epoch9.pth'))
 	start = time.time()
 	enhanced_image,params_maps = DCE_net(data_lowlight)
     
 	end_time = (time.time() - start)
 
 	print(end_time)
-	image_path = image_path.replace('test_data/real', '/result_Zero_DCE++/attention')
+	image_path = image_path.replace('test_data/real', '/result_Zero_DCE++/attention_no_bn_bias')
 
 	result_path = image_path
 	if not os.path.exists(image_path.replace('/'+image_path.split("/")[-1],'')):
 		os.makedirs(image_path.replace('/'+image_path.split("/")[-1],''))
-	# import pdb;pdb.set_trace()
 	torchvision.utils.save_image(enhanced_image, result_path)
 	return end_time
 
@@ -54,8 +53,6 @@ if __name__ == '__main__':
 
 	with torch.no_grad():
 		tbwriter = SummaryWriter("runs/")
-
-
 		filePath = 'data/test_data/'	
 		file_list = os.listdir(filePath)
 		sum_time = 0
