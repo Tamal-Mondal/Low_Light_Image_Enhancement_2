@@ -41,7 +41,7 @@ def lowlight(image_path):
 	end_time = (time.time() - start)
 
 	print(end_time)
-	image_path = image_path.replace('test_data/real', '/result_Zero_DCE++/with_cbam')
+	image_path = image_path.replace('test_data/real', '/result_Zero_DCE++/attention')
 
 	result_path = image_path
 	if not os.path.exists(image_path.replace('/'+image_path.split("/")[-1],'')):
