@@ -143,8 +143,8 @@ class enhance_net_nopool(nn.Module):
         self.e_conv7 = CSDN_Tem(number_f * 2, 3)
 
         # CBAM layer
-        self.cbam_1 = CBAM(gate_channels = 32, reduction_ratio = 16, pool_types = ["avg", "max", "lp", "lse"])
-        self.cbam_2 = CBAM(gate_channels = 3, reduction_ratio = 1, pool_types = ["avg", "max", "lp", "lse"])
+        self.cbam_1 = CBAM(gate_channels = 32, reduction_ratio = 16, pool_types = ["avg", "max"])
+        self.cbam_2 = CBAM(gate_channels = 3, reduction_ratio = 2, pool_types = ["avg", "max"])
 
     def enhance(self, x, x_r, add_extra_itr = False):
         x = x + x_r * (torch.pow(x, 2) - x)
