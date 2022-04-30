@@ -1,0 +1,42 @@
+
+1. Baseline(Zero-DCE++)
+
+Average PSNR value is 11.519790183411068 dB
+Average SSIM score is 0.06213622547745164
+Average MAE value is 66.19075339023884
+
+2. Added extra 4 iterations
+
+Average PSNR value is 16.222189261687504 dB
+Average SSIM score is 0.06229495575064546
+Average MAE value is 38.540443152647754
+
+3. With attention in first 6 layers
+
+Average PSNR value is 13.225547272808507 dB
+Average SSIM score is 0.062187938594767206
+Average MAE value is 55.191119645192074
+
+4. Attention with no batchnorm and added bias in Conv layers of CBAM
+
+Average PSNR value is 11.983583042994272 dB
+Average SSIM score is 0.06215342875366395
+Average MAE value is 63.19150435374333
+
+5. CBAM with all 4 pooling types(avg, max, lp, lse)[no batchnorm, added bias]
+
+Average PSNR value is 13.458457874907072 dB
+Average SSIM score is 0.06236234960211418
+Average MAE value is 42.88600382071275
+
+6. Attention added in all 7 layers(no batchnorm, added bias)
+
+Average PSNR value is 9.102292860227342 dB
+Average SSIM score is 0.06209760965208931
+Average MAE value is 87.3948235144982
+
+7. With reduced reduction_rate(4 for first 7 layers and 2 for output layer) of CBAM(no batchnorm, added bias and CBAM in all layers)
+
+Average PSNR value is 8.658066636021658 dB
+Average SSIM score is 0.06209225694466223
+Average MAE value is 92.0278448838454
