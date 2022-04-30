@@ -15,6 +15,10 @@ from PIL import Image
 import glob
 import time
 
+
+from torch.utils.tensorboard import SummaryWriter
+
+
 def lowlight(image_path):
 	os.environ['CUDA_VISIBLE_DEVICES']='1,2'
 	scale_factor = 12
@@ -49,16 +53,18 @@ def lowlight(image_path):
 if __name__ == '__main__':
 
 	with torch.no_grad():
+		tbwriter = SummaryWriter("runs/")
+
 
 		filePath = 'data/test_data/'	
 		file_list = os.listdir(filePath)
 		sum_time = 0
 		for file_name in file_list[:1]:
 			test_list = glob.glob(filePath+file_name+"/*") 
-		for image in test_list:
-
-				print(image)
-				sum_time = sum_time + lowlight(image)
+		for idx, image in enumerate(test_list):
+			time_taken = lowlight(image)
+			sum_time = sum_time + time_taken
+			tbwriter.add_scalar(f"testing_time:", time_taken, idx)
 
 		print(sum_time)
 		
