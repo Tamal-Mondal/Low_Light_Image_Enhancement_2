@@ -33,8 +33,8 @@ def calculate_SSIM(original, enhanced):
     return score, diff
 
 def main():
-    actual_images_folder = "/home/cs19btech11056/cs21mtech12001-Tamal/DL_Project/Zero-DCE_extension/Zero-DCE++/data/test_data/real"
-    enhanced_images_folder = "/home/cs19btech11056/cs21mtech12001-Tamal/DL_Project/Zero-DCE_extension/Zero-DCE++/data/result_Zero_DCE++/extra_iterations"
+    actual_images_folder = "data/test_data/real"
+    enhanced_images_folder = "data/result_Zero_DCE++/extra_iterations"
     
     actual_images = glob.glob(actual_images_folder + "/*") 
     enhanced_images = glob.glob(enhanced_images_folder + "/*") 
