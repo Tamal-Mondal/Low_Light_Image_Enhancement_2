@@ -25,11 +25,11 @@ def compare_resuts(original_path, without_attention_path, with_attention_path):
             f"{without_attention_path}/{without_attention[num]}")
         img3 = imageio.imread(f"{with_attention_path}/{with_attention[num]}")
 
-        plt.subplot(1, 3, 3)
+        plt.subplot(1, 3, 1)
         plt.title("original")
         plt.imshow(img1)
 
-        plt.subplot(1, 3, 3)
+        plt.subplot(1, 3, 2)
         plt.title("Baseline(Zero-DCE)")
         plt.imshow(img2)
 
