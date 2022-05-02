@@ -9,6 +9,11 @@ import os
 
 plt.rcParams.update({"figure.max_open_warning": 0})
 
+# This scrip is to combine test results of multiple models into one
+# Author: Kamal Shrestha, Tamal Mondal and Praveen Viswakarma
+
+
+# Method to combine results together
 def compare_resuts(original_path, baseline_path, with_attention_path, with_attention_no_bn_bias_path, \
         with_attention_pool_no_bn_bias_path, with_attention_last_layer_path, with_attention_reduced_rr_path, \
         with_attention_increased_lr_wd_path, with_attention_4_layers_path):

@@ -17,6 +17,10 @@ import glob
 import time
 import shutil
 
+# This script is to use Zero-DCE(or the enhanced version of it) for video enhancement
+# Author: Tamal Mondal and Aman Agarwal
+
+# Method to enhance one frame of the video at a time
 def enhance_video_frame(data_lowlight, frame_no, result_path):
 	os.environ['CUDA_VISIBLE_DEVICES']='1'
 	scale_factor = 12
@@ -36,6 +40,7 @@ def enhance_video_frame(data_lowlight, frame_no, result_path):
 	torchvision.utils.save_image(enhanced_image, result_path + str(frame_no) + ".png")
 	return enhanced_image
 
+# Combine all the enhanced frames to one video
 def combine_images_to_video(images_path, video_path, fps):
 
     images = [img for img in os.listdir(images_path) if img.endswith(".png")]
@@ -50,6 +55,7 @@ def combine_images_to_video(images_path, video_path, fps):
     cv2.destroyAllWindows()
     video.release()
 
+# Method for video enhancement
 def enhance_video(video_path):
     
     original_video = cv2.VideoCapture(video_path)

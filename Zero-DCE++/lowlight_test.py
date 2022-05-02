@@ -18,6 +18,7 @@ import time
 
 from torch.utils.tensorboard import SummaryWriter
 
+# Original training script of Zero-DCE++
 
 def lowlight(image_path):
 	os.environ['CUDA_VISIBLE_DEVICES']='1,2'

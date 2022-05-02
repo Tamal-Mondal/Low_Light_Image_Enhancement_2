@@ -7,6 +7,9 @@ import torch
 from skimage.metrics import structural_similarity as ssim
 from sklearn.metrics import mean_absolute_error
 
+# This script is to calculte PSNR, SSIM and MAE between 2 images
+# Author: Tamal Mondal and Aman Agarwal
+
 def scale_image(data_lowlight):
     scale_factor = 12
     data_lowlight = (data_lowlight/255.0)
@@ -16,7 +19,8 @@ def scale_image(data_lowlight):
     w=(data_lowlight.shape[1]//scale_factor)*scale_factor
     data_lowlight = data_lowlight[0:h,0:w,:]
     return data_lowlight.cpu().detach().numpy()
- 
+
+# Method to calculate PSNR
 def calculate_PSNR(original, enhanced):
     mse = np.mean((original - enhanced) ** 2)
     if(mse == 0):
@@ -25,6 +29,7 @@ def calculate_PSNR(original, enhanced):
     psnr = 20 * log10(max_pixel / sqrt(mse))
     return psnr
 
+# Method to calculate SSIM
 def calculate_SSIM(original, enhanced):
     gray_original = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
     gray_enhanced = cv2.cvtColor(enhanced, cv2.COLOR_BGR2GRAY)

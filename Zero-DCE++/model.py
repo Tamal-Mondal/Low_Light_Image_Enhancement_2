@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# Author(for doing CBAM modifications): Tamal Mondal and Kamal Shrestha
+
 class CSDN_Tem(nn.Module):
     def __init__(self, in_ch, out_ch):
         super(CSDN_Tem, self).__init__()
@@ -12,7 +14,6 @@ class CSDN_Tem(nn.Module):
         out = self.depth_conv(input)
         out = self.point_conv(out)
         return out
-
 
 ################################## SELF-ATTENTION MODULE ################################
 
@@ -123,7 +124,7 @@ class CBAM(nn.Module):
 
 ################################################# END ###################################################
 
-
+# defination of the network
 class enhance_net_nopool(nn.Module):
     def __init__(self, scale_factor):
         super(enhance_net_nopool, self).__init__()
@@ -142,10 +143,11 @@ class enhance_net_nopool(nn.Module):
         self.e_conv6 = CSDN_Tem(number_f * 2, number_f)
         self.e_conv7 = CSDN_Tem(number_f * 2, 3)
 
-        # CBAM layer
+        # CBAM layer(cbam_1 is for first 6 layers and cbam_2 is for the output layer)
         self.cbam_1 = CBAM(gate_channels = 32, reduction_ratio = 4, pool_types = ["avg", "max"])
         self.cbam_2 = CBAM(gate_channels = 3, reduction_ratio = 2, pool_types = ["avg", "max"])
-
+    
+    # Method to generate higher order curves 
     def enhance(self, x, x_r, add_extra_itr = False):
         x = x + x_r * (torch.pow(x, 2) - x)
         x = x + x_r * (torch.pow(x, 2) - x)
@@ -173,6 +175,8 @@ class enhance_net_nopool(nn.Module):
             x_down = F.interpolate(x, scale_factor=1 / self.scale_factor, mode="bilinear")
 
         # print("\n==========Input shape: ", x_down.shape)
+
+        # CBAM attention module is added after every convolution layer
         x1 = self.relu(self.cbam_1(self.e_conv1(x_down)))
         x2 = self.relu(self.cbam_1(self.e_conv2(x1)))
         x3 = self.relu(self.cbam_1(self.e_conv3(x2)))
