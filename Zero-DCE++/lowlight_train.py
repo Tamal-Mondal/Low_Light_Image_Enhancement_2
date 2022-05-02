@@ -117,4 +117,5 @@ if __name__ == "__main__":
 
 
 # tensorboard dev upload --logdir runs --name "Zero-DCE++" --description "Epochs-10"
-# Graphs: https://tensorboard.dev/experiment/WkfErCOERUePrXtj939mOg/
+# python3 -m tensorboard.main dev upload --logdir runs --name "Zero-DCE++" --description "Epoch-9"
+# Graphs: https://tensorboard.dev/experiment/uvWQdZatReuJGT4BZZSRoA/#scalars&_smoothingWeight=0.999
