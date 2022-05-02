@@ -177,9 +177,9 @@ class enhance_net_nopool(nn.Module):
         x2 = self.relu(self.cbam_1(self.e_conv2(x1)))
         x3 = self.relu(self.cbam_1(self.e_conv3(x2)))
         x4 = self.relu(self.cbam_1(self.e_conv4(x3)))
-        x5 = self.relu(self.e_conv5(torch.cat([x3, x4], 1)))
-        x6 = self.relu(self.e_conv6(torch.cat([x2, x5], 1)))
-        x_r = torch.tanh(self.e_conv7(torch.cat([x1, x6], 1)))
+        x5 = self.relu(self.cbam_1(self.e_conv5(torch.cat([x3, x4], 1))))
+        x6 = self.relu(self.cbam_1(self.e_conv6(torch.cat([x2, x5], 1))))
+        x_r = torch.tanh(self.cbam_2(self.e_conv7(torch.cat([x1, x6], 1))))
         
         #x1 = self.relu(self.e_conv1(x_down))
         #x2 = self.relu(self.e_conv2(x1))
