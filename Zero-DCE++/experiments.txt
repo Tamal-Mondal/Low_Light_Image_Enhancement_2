@@ -40,3 +40,15 @@ Average MAE value is 87.3948235144982
 Average PSNR value is 8.658066636021658 dB
 Average SSIM score is 0.06209225694466223
 Average MAE value is 92.0278448838454
+
+8. With lr = 0.001 and weight-decay = 0.001
+
+Average PSNR value is 6.040040605534262 dB
+Average SSIM score is 0.05529139201725268
+Average MAE value is 122.54628822901478
+
+9. With attention only in first 4 layers
+
+Average PSNR value is 10.384862782866167 dB
+Average SSIM score is 0.05532927852970329
+Average MAE value is 75.42701540254566

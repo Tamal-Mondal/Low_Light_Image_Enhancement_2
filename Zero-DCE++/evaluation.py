@@ -34,7 +34,7 @@ def calculate_SSIM(original, enhanced):
 
 def main():
     actual_images_folder = "data/test_data/real"
-    enhanced_images_folder = "data/result_Zero_DCE++/attention_reduced_rr"
+    enhanced_images_folder = "data/result_Zero_DCE++/attention_4_layers"
     
     actual_images = glob.glob(actual_images_folder + "/*") 
     enhanced_images = glob.glob(enhanced_images_folder + "/*") 
