@@ -196,7 +196,7 @@ def niqe(inputImgData):
     module_path = dirname(__file__)
 
     # TODO: memoize
-    params = scipy.io.loadmat("/raid/cs21mtech12001/DL_project/Low_Light_Image_Enhancement_2/Zero-DCE++/data/niqe_image_params.mat")
+    params = scipy.io.loadmat("evaluation_scripts/niqe_image_params.mat")
     pop_mu = np.ravel(params["pop_mu"])
     pop_cov = params["pop_cov"]
 
